@@ -13,9 +13,9 @@ class Generator {
 
   generateIds() {
     let idSelector = [
-      ...lowerCharacter,
-      ...numbers,
-      ...lowerCharacter.toUpperCase(),
+      ...this.lowerCharacter,
+      ...this.numbers,
+      ...this.lowerCharacter.toUpperCase(),
     ];
 
     let id = "";
@@ -24,17 +24,17 @@ class Generator {
       id += idSelector[Math.floor(Math.random() * idSelector.length)];
     }
 
-    console.log(colors.info(`generated id : _${id}`));
+    console.log(`generated id : _${id}`);
 
     return `_${id}`;
   }
 
   generatePassword() {
     let passportSelector = [
-      ...numbers,
-      ...lowerCharacter.toUpperCase(),
-      ...symbolsCharacter,
-      ...lowerCharacter,
+      ...this.numbers,
+      ...this.lowerCharacter.toUpperCase(),
+      ...this.symbolsCharacter,
+      ...this.lowerCharacter,
     ];
     let password = "";
 

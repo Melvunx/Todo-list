@@ -1,14 +1,30 @@
+const { Handler } = require("../utils/handler");
+const db = require("../config/database");
+
+const handler = new Handler();
+
 const toggleStatus = (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const { status } = req.body;
-  db.query(
-    "UPDATE todo SET status = ? WHERE id = ?",
-    [status, id],
-    (err, results) => {
-      if (err) throw err;
-      res.send(results);
+  db.query(process.env.UPDATE_STATUS_TODO, [status, id], (error) => {
+    if (error) {
+      res
+        .status(500)
+        .send(handler.requestFailed(error, "Error to update status"));
+      return;
     }
-  );
+
+    handler.loggedRequestSuccessed("Updated todo status", {
+      todoId: id,
+      status: status === 1 ? true : false,
+    });
+
+    
+    res.status(200).json("Updated todo status", {
+      todoId: id,
+      status: status === 1 ? true : false,
+    });
+  });
 };
 
 module.exports = { toggleStatus };

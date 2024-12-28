@@ -68,35 +68,70 @@ const getTodoByName = (req, res) => {
 };
 
 const newTodo = (req, res) => {
-  const { list, important } = req.body;
+  const {
+    todo: { list, important },
+  } = req.body;
 
-  if (!CREATE_TODO) {
+  if (!CREATE_TODO || !GET_TODOS) {
     handler.requestFailed(
       new Error("Sql request not defined"),
       "Element undefined"
     );
     return;
+  } else if (!list || important == null) {
+    res
+      .status(400)
+      .json(
+        handler.requestFailed(
+          new Error("Missing required fields"),
+          "Missing fields"
+        )
+      );
+    return;
   }
 
-  const todoId = generator.generateIds();
+  let position;
 
-  db.query(CREATE_TODO, [todoId, list, important], (error) => {
+  db.query(GET_TODOS, (error, todos) => {
     if (error) {
       res
         .status(500)
-        .send(handler.requestFailed(error, "Error to create new todo"));
+        .send(handler.requestFailed(error, "Error to fetch todos"));
       return;
     }
 
-    handler.loggedRequestSuccessed("Todo created", {
-      todo: { id: todoId, list, important },
-    });
+    position = todos.length + 1;
 
-    res.status(201).json(
-      handler.requestSuccessed("Todo created", {
-        todo: { id: todoId, list, important },
-      })
-    );
+    const todoId = generator.generateIds();
+
+    db.query(CREATE_TODO, [todoId, list, important, position], (error) => {
+      if (error) {
+        res
+          .status(500)
+          .send(handler.requestFailed(error, "Error to create new todo"));
+        return;
+      }
+
+      handler.loggedRequestSuccessed("Todo created", {
+        todo: {
+          id: todoId,
+          list,
+          important: important === 1 ? true : false,
+          position,
+        },
+      });
+
+      res.status(201).json(
+        handler.requestSuccessed("Todo created", {
+          todo: {
+            id: todoId,
+            list,
+            important: important === 1 ? true : false,
+            position,
+          },
+        })
+      );
+    });
   });
 };
 

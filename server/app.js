@@ -8,6 +8,7 @@ const app = express();
 const { PORT } = process.env;
 
 app.use(cors());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(PORT, () => {
@@ -21,7 +22,6 @@ db.connect((error) => {
   }
   console.log("Connected to database");
 });
-
 
 const todosRoutes = require("./src/routes/todos.routes");
 const statusRoutes = require("./src/routes/status.routes");
