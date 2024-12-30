@@ -6,8 +6,8 @@ export const TodoSchema = z.object({
   status: z.string(),
   important: z.string(),
   position: z.number(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.string().date(),
+  updatedAt: z.string().date(),
 });
 
 export type Todo = z.infer<typeof TodoSchema>;
@@ -15,8 +15,12 @@ export type Todo = z.infer<typeof TodoSchema>;
 export const TodosSchema = z.array(TodoSchema);
 
 export const TodosResponseSchema = z.object({
-  todos: TodosSchema,
+  success: z.boolean(),
+  message: z.string(),
+  data: TodosSchema,
 });
+
+export type TodosResponse = z.infer<typeof TodosResponseSchema>;
 
 export const TodoResponseSchema = z.object({
   todo: TodoSchema,
