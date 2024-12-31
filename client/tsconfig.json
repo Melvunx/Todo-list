@@ -11,7 +11,10 @@
       "@components/*": ["./src/components/*"],
       "@layout/*": ["./src/components/layout/*"],
       "@pages/*": ["./src/pages/*"],
-      "@schema/*": ["./src/schema/*"]
+      "@schema/*": ["./src/schema/*"],
+      "@server/*": ["../server/src/*"],
+      "@utils/*": ["../server/src/utils/*"],
+      "@services/*": ["../server/src/services/*"]
     }
   }
 }

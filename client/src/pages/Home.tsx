@@ -1,5 +1,4 @@
 import FormTodo from "@/components/FormTodo";
-import { ModeToggle } from "@/components/ModeToggle";
 import Todos from "@/components/Todos";
 import { Separator } from "@/components/ui/separator";
 import { Todo } from "@/schema/todo.schema";
@@ -27,9 +26,10 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Home</h1>
-      <ModeToggle />
-      <Todos todos={todoData} />
+      <h1 className="bg-slate-500/30 py-6 text-center font-mono font-semibold italic">
+        Melvunx Todolist
+      </h1>
+      <Todos todos={todoData} onRefresh={fetchedTodo} />
       <Separator />
       <FormTodo onRefresh={fetchedTodo} />
     </div>

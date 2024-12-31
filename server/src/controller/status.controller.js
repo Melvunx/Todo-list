@@ -19,11 +19,12 @@ const toggleStatus = (req, res) => {
       status: status === 1 ? true : false,
     });
 
-    
-    res.status(200).json("Updated todo status", {
-      todoId: id,
-      status: status === 1 ? true : false,
-    });
+    res.status(200).json(
+      handler.requestSuccessed("Updated todo status", {
+        todoId: id,
+        status: status === 1 ? true : false,
+      })
+    );
   });
 };
 

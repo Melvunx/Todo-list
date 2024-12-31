@@ -112,25 +112,18 @@ const newTodo = (req, res) => {
         return;
       }
 
-      handler.loggedRequestSuccessed("Todo created", {
+      const data = {
         todo: {
           id: todoId,
           list,
           important: important === 1 ? true : false,
           position,
         },
-      });
+      };
 
-      res.status(201).json(
-        handler.requestSuccessed("Todo created", {
-          todo: {
-            id: todoId,
-            list,
-            important: important === 1 ? true : false,
-            position,
-          },
-        })
-      );
+      handler.loggedRequestSuccessed("Todo created", data);
+
+      res.status(201).json(handler.requestSuccessed("Todo created", data));
     });
   });
 };

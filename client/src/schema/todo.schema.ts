@@ -3,8 +3,8 @@ import { z } from "zod";
 export const TodoSchema = z.object({
   id: z.string(),
   list: z.string(),
-  status: z.string(),
-  important: z.string(),
+  status: z.number(),
+  important: z.number(),
   position: z.number(),
   createdAt: z.string().date(),
   updatedAt: z.string().date(),
