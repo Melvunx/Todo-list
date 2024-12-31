@@ -6,8 +6,14 @@ const {
 const db = require("../config/database");
 const { Generator } = require("../services/generate.services");
 
-const { GET_TODOS, SEARCH_TODOS, CREATE_TODO, UPDATE_TODO_LIST, DELETE_TODO } =
-  process.env;
+const {
+  GET_TODOS,
+  SEARCH_TODOS,
+  CREATE_TODO,
+  UPDATE_TODO_LIST,
+  UPDATE_DATETIME,
+  DELETE_TODO,
+} = process.env;
 
 const handler = new Handler();
 const generator = new Generator(15);
@@ -130,8 +136,13 @@ const newTodo = (req, res) => {
 
 const updateTodo = (req, res) => {
   const { id } = req.params;
+  const {
+    todo: { list },
+  } = req.body;
 
-  if (!UPDATE_TODO_LIST) {
+  console.log({ list });
+
+  if (!UPDATE_TODO_LIST || !UPDATE_DATETIME) {
     res
       .status(500)
       .send(
@@ -148,6 +159,13 @@ const updateTodo = (req, res) => {
         handler.requestFailed(new Error("Id is required"), "Id is required")
       );
     return;
+  } else if (!list) {
+    res
+      .status(400)
+      .send(
+        handler.requestFailed(new Error("List is required"), "List is required")
+      );
+    return;
   }
 
   db.query(UPDATE_TODO_LIST, [list, id], (error) => {
@@ -157,6 +175,16 @@ const updateTodo = (req, res) => {
         .send(handler.requestFailed(error, "Error to update the list"));
       return;
     }
+
+    db.query(UPDATE_DATETIME, [id], (error) => {
+      if (error) {
+        res
+          .status(500)
+          .send(handler.requestFailed(error, "Error to update the datetime"));
+        return;
+      }
+      console.log("Datetime updated");
+    });
 
     handler.loggedRequestSuccessed("Todo updated", {
       todo: { id, list },

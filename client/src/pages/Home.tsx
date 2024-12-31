@@ -3,6 +3,7 @@ import Todos from "@/components/Todos";
 import { Separator } from "@/components/ui/separator";
 import { Todo } from "@/schema/todo.schema";
 import { useEffect, useState } from "react";
+import { Toaster } from "sonner";
 
 const Home = () => {
   const [todoData, setTodoData] = useState<Todo[]>([]);
@@ -15,6 +16,7 @@ const Home = () => {
           setTodoData(todos);
         });
       });
+      console.log("Todolist update");
     } catch (error) {
       console.error(error);
     }
@@ -31,6 +33,7 @@ const Home = () => {
       </h1>
       <Todos todos={todoData} onRefresh={fetchedTodo} />
       <Separator />
+      <Toaster />
       <FormTodo onRefresh={fetchedTodo} />
     </div>
   );

@@ -18,7 +18,7 @@ const Todos: React.FC<TodoProps> = ({ todos, onRefresh }) => {
       <ul className="my-4 flex flex-col gap-5">
         {todos ? (
           todos.map((todo, index) => (
-            <div className="relative">
+            <div key={todo.id} className="relative">
               <p
                 className={`absolute left-3 top-1/3 italic text-slate-600/30 ${
                   isHoverDiv ? "text-indigo-700/30" : ""

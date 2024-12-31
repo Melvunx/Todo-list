@@ -14,16 +14,19 @@ type ButtonManagerProps = {
   children?: React.ReactNode;
   className?: string;
   onClick?: () => void;
+  type?: "submit" | "reset" | "button";
 };
 
 const ButtonManager: React.FC<ButtonManagerProps> = ({
   variant,
+  type,
   children,
   className,
   onClick,
 }) => {
   return (
     <Button
+      type={type}
       variant={variant}
       className={clsx(
         "relative font-mono text-lg font-medium transition-colors",
